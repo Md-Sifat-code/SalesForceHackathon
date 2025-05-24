@@ -10,11 +10,14 @@ import Auth_Layout from "./Layout/Auth_Layout";
 import Login from "./auth/authcomponent/Login";
 import Verification from "./auth/authcomponent/Verification";
 import Home from "./Pages/Home";
+import Error from "./Error/Error";
+import Main_Layout from "./Layout/Main_Layout";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <Auth_Layout/>,
+    errorElement : <Error/>,
     children : [
       {
         path : "/",
@@ -33,7 +36,14 @@ const router = createBrowserRouter([
   },
   {
     path : "/home",
-    element : <Home/>
+    element : <Main_Layout/>,
+    errorElement : <Error/>,
+    children : [
+      {
+        path : "/home",
+        element : <Home/>
+      }
+    ]
   }
 ]);
 
