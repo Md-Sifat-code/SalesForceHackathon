@@ -12,6 +12,7 @@ import Verification from "./auth/authcomponent/Verification";
 import Home from "./Pages/Home";
 import Error from "./Error/Error";
 import Main_Layout from "./Layout/Main_Layout";
+import Rooms from "./Pages/Rooms";
 
 const router = createBrowserRouter([
   {
@@ -42,6 +43,10 @@ const router = createBrowserRouter([
       {
         path : "/home",
         element : <Home/>
+      },
+      {
+        path : "/home/rooms",
+        element : <Rooms/>
       }
     ]
   }

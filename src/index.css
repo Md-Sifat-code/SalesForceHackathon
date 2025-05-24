@@ -1,5 +1,5 @@
 @import "tailwindcss";
-
+@plugin "daisyui";
 .sour{
   font-family: "Sour Gummy", sans-serif;
   

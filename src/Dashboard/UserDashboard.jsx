@@ -37,9 +37,12 @@ const UserDashboard = () => {
     fetchRooms();
   }, []);
 
-  const filteredRooms = availableRooms.filter((room) =>
-    room.name.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  // Safe check to ensure availableRooms is an array before filtering
+  const filteredRooms = Array.isArray(availableRooms)
+    ? availableRooms.filter((room) =>
+        room.name.toLowerCase().includes(searchQuery.toLowerCase())
+      )
+    : [];
 
   const scrollRight = () => {
     if (scrollRef.current) {
