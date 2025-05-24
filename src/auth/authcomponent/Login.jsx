@@ -27,31 +27,45 @@ const Login = () => {
       password: credentials.password,
     };
 
+    console.log("Submitting login with credentials:", userCredentials);
+
     try {
-      const response = await fetch("https://salesforce-hackathon-s8mr.onrender.com/Log", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(userCredentials),
-      });
+      const response = await fetch(
+        "https://salesforce-hackathon-s8mr.onrender.com/Log",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(userCredentials),
+        }
+      );
+
+      console.log("Response status:", response.status);
 
       if (response.ok) {
         const data = await response.json();
+        console.log("Login response data:", data);
 
         // Store the received data in localStorage
         localStorage.setItem("token", data.token);
         localStorage.setItem("username", data.username);
         localStorage.setItem("email", data.email);
 
+        console.log("Data stored in localStorage:");
+        console.log("token:", localStorage.getItem("token"));
+        console.log("username:", localStorage.getItem("username"));
+        console.log("email:", localStorage.getItem("email"));
+
         // Redirect the user after login
         navigate("/home");
       } else {
         const errorData = await response.json();
+        console.error("Login error response:", errorData);
         setError(errorData.message || "Failed to log in.");
       }
     } catch (error) {
-      console.error("Login failed", error);
+      console.error("Login failed with error:", error);
       setError("An error occurred while logging in. Please try again.");
     }
   };
@@ -97,15 +111,16 @@ const Login = () => {
             <div className="flex items-center border border-[#575B91] rounded px-3 py-2">
               <FaLock className="text-black mr-2" />
               <input
-                type="text"
-                id="password"
-                name="password"
-                placeholder="Enter your password"
-                value={credentials.password}
-                onChange={handleChange}
-                required
-                className="w-full outline-none"
-              />
+  type="text"
+  id="password"
+  name="password"
+  placeholder="Enter your password"
+  value={credentials.password}
+  onChange={handleChange}
+  required
+  className="w-full outline-none"
+/>
+
             </div>
           </div>
 

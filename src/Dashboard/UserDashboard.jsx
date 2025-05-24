@@ -26,7 +26,7 @@ const UserDashboard = () => {
   useEffect(() => {
     const fetchRooms = async () => {
       try {
-        const response = await fetch('https://salesforce-hackathon-s8mr.onrender.com/room');
+        const response = await fetch('https://salesforce-hackathon-s8mr.onrender.com/api/bookings/rooms');
         const data = await response.json();
         setAvailableRooms(data);
       } catch (error) {
@@ -149,10 +149,10 @@ const UserDashboard = () => {
                 </div>
                 <div className="flex justify-between items-center">
                   <p className="text-sm px-4 py-2 bg-white font-bold rounded-2xl text-[#575B91] border border-[#575B91]">
-                    {room.amenities.length} Amenities
+                    {Array.isArray(room.amenities) ? room.amenities.length : 0} Amenities
                   </p>
                   <div className="text-right text-sm text-gray-500">
-                    {room.amenities.join(', ')}
+                    {Array.isArray(room.amenities) ? room.amenities.join(', ') : 'No amenities'}
                   </div>
                 </div>
               </div>
