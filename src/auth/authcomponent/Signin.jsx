@@ -32,7 +32,7 @@ const Signin = () => {
       form.append("email", formData.email);
       form.append("password", formData.password);
 
-      const res = await fetch("https://biggangolpo.onrender.com/User/add", {
+      const res = await fetch("https://salesforce-hackathon-s8mr.onrender.com/User/add", {
         method: "POST",
         body: form,
       });

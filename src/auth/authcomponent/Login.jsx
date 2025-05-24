@@ -28,7 +28,7 @@ const Login = () => {
     };
 
     try {
-      const response = await fetch("https://biggangolpo.onrender.com/Log", {
+      const response = await fetch("https://salesforce-hackathon-s8mr.onrender.com/Log", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

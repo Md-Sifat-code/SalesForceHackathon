@@ -9,6 +9,7 @@ import Signin from "./auth/authcomponent/Signin";
 import Auth_Layout from "./Layout/Auth_Layout";
 import Login from "./auth/authcomponent/Login";
 import Verification from "./auth/authcomponent/Verification";
+import Home from "./Pages/Home";
 
 const router = createBrowserRouter([
   {
@@ -30,6 +31,10 @@ const router = createBrowserRouter([
       }
     ]
   },
+  {
+    path : "/home",
+    element : <Home/>
+  }
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(
