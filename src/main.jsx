@@ -38,6 +38,9 @@ import { UserProvider } from "./context/UserContext";
 import { WebSocketProvider } from "./context/WebSocketContext";
 import Messege_Layout from "./Layout/Messege_Layout";
 import Messages from "./components/Messeges";
+import About from "./Pages/About";
+import Equipments from "./Pages/Equipments";
+import ManagementDashboard from "./components/ManagementDashboard";
 
 const router = createBrowserRouter([
   {
@@ -76,6 +79,18 @@ const router = createBrowserRouter([
         path: "/home/chat",
         element: <Messege_Layout/>,
         children: [{ path: "/home/chat", element: <Messages /> }],
+      },
+      {
+        path: "/home/about",
+        element: <About />,
+      },
+      {
+        path: "/home/equipments",
+        element: <Equipments />,
+      },
+      {
+        path: "/home/management",
+        element: <ManagementDashboard />,
       },
     ],
   },

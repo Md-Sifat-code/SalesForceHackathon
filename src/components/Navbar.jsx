@@ -1,31 +1,48 @@
-import React, { useState } from 'react';
-import { FaUserCircle } from 'react-icons/fa';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import React, { useState } from "react";
+import { FaUserCircle } from "react-icons/fa";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useUser } from "../context/UserContext"; // adjust path if needed
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
+  const { user, loading } = useUser();
 
   const toggleMenu = () => setMenuOpen(!menuOpen);
   const toggleDropdown = () => setDropdownOpen(!dropdownOpen);
 
   const handleLogout = () => {
     // Add actual logout logic here
-    alert('Logged out!');
+    alert("Logged out!");
     setDropdownOpen(false);
-    navigate('/login'); // Redirect to login page
+    navigate("/login"); // Redirect to login page
   };
 
+  // Base nav links
   const navLinks = [
-    { name: 'Home', path: '/home' },
-    { name: 'Rooms', path: '/home/rooms' },
-    { name: 'Equipment', path: '/equipment' },
-    { name: 'About', path: '/about' },
+    { name: "Home", path: "/home" },
+    { name: "Rooms", path: "/home/rooms" },
+    { name: "Equipment", path: "/home/equipments" }, // fixed typo
+    { name: "About", path: "/home/about" },
   ];
 
+  // Conditionally add management link if user has MANAGEMENT role
+  if (
+    user?.roles?.some(
+      (role) => role.roleType?.toLowerCase() === "management"
+    )
+  ) {
+    navLinks.push({ name: "Management", path: "/home/management" });
+  }
+
   const isActive = (path) => location.pathname === path;
+
+  if (loading) {
+    // Optionally show loading state or null while user loads
+    return null;
+  }
 
   return (
     <header className="bg-white shadow-md fixed top-0 w-full z-50">
@@ -33,7 +50,11 @@ const Navbar = () => {
         {/* Logo */}
         <div className="text-xl font-bold text-[#575B91]">
           <Link to="/home">
-            <img className="w-[50px] h-[50px]" src="/logo.png" alt="Dropillo Logo" />
+            <img
+              className="w-[50px] h-[50px]"
+              src="/logo.png"
+              alt="Dropillo Logo"
+            />
           </Link>
         </div>
 
@@ -45,8 +66,8 @@ const Navbar = () => {
               to={link.path}
               className={`transition ${
                 isActive(link.path)
-                  ? 'text-[#575B91] font-semibold'
-                  : 'text-gray-700 hover:text-[#575B91]'
+                  ? "text-[#575B91] font-semibold"
+                  : "text-gray-700 hover:text-[#575B91]"
               }`}
             >
               {link.name}
@@ -76,7 +97,10 @@ const Navbar = () => {
 
         {/* Mobile User Icon Toggle */}
         <div className="lg:hidden relative">
-          <button onClick={toggleMenu} className="text-2xl text-[#575B91] focus:outline-none">
+          <button
+            onClick={toggleMenu}
+            className="text-2xl text-[#575B91] focus:outline-none"
+          >
             <FaUserCircle />
           </button>
         </div>
@@ -92,8 +116,8 @@ const Navbar = () => {
               onClick={toggleMenu}
               className={`block transition ${
                 isActive(link.path)
-                  ? 'text-[#575B91] font-semibold'
-                  : 'text-gray-700 hover:text-[#575B91]'
+                  ? "text-[#575B91] font-semibold"
+                  : "text-gray-700 hover:text-[#575B91]"
               }`}
             >
               {link.name}

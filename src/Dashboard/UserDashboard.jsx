@@ -3,25 +3,9 @@ import { FaCircleChevronRight, FaCircleChevronLeft } from 'react-icons/fa6';
 
 const UserDashboard = () => {
   const [availableRooms, setAvailableRooms] = useState([]);
+  const [upcomingMeetings, setUpcomingMeetings] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
   const scrollRef = useRef(null);
-
-  const upcomingMeetings = [
-    {
-      id: 1,
-      title: 'Team Sync',
-      time: '10:00 AM - 11:00 AM',
-      room: 'Huddle Room 1',
-      attendees: ['/user1.png', '/user2.png', '/user3.png'],
-    },
-    {
-      id: 2,
-      title: 'Client Demo',
-      time: '1:00 PM - 2:30 PM',
-      room: 'Boardroom A',
-      attendees: ['/user1.png', '/user2.png', '/user3.png'],
-    },
-  ];
 
   useEffect(() => {
     const fetchRooms = async () => {
@@ -33,11 +17,32 @@ const UserDashboard = () => {
         console.error('Error fetching rooms:', error);
       }
     };
-
     fetchRooms();
   }, []);
 
-  // Safe check to ensure availableRooms is an array before filtering
+  useEffect(() => {
+    const fetchUpcomingMeetings = async () => {
+      try {
+        const response = await fetch('https://salesforce-hackathon-s8mr.onrender.com/api/bookings/rooms/booked');
+        const data = await response.json();
+
+        const meetings = data.map((room) => ({
+          id: room.id,
+          title: `Meeting in ${room.name}`,
+          time: `Scheduled time TBD`,
+          room: `${room.name} (Capacity: ${room.capacity})`,
+          attendees: ['/user1.png', '/user2.png', '/user3.png'],
+        }));
+
+        setUpcomingMeetings(meetings);
+      } catch (error) {
+        console.error('Error fetching upcoming meetings:', error);
+      }
+    };
+
+    fetchUpcomingMeetings();
+  }, []);
+
   const filteredRooms = Array.isArray(availableRooms)
     ? availableRooms.filter((room) =>
         room.name.toLowerCase().includes(searchQuery.toLowerCase())
@@ -87,6 +92,7 @@ const UserDashboard = () => {
           </button>
         </div>
         <div className="grid md:grid-cols-2 gap-4">
+          {upcomingMeetings.length === 0 && <p>No upcoming meetings found.</p>}
           {upcomingMeetings.map((meeting) => (
             <div
               key={meeting.id}
